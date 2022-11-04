@@ -1,5 +1,7 @@
 package br.com.futurodev.primeiraapi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -55,6 +57,7 @@ public class ItemPedido implements Serializable {
         this.produto = produto;
     }
 
+    @JsonBackReference
     public Pedido getPedido() {
         return pedido;
     }

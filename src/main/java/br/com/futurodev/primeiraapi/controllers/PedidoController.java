@@ -52,8 +52,10 @@ public class PedidoController {
         return new ResponseEntity<String>("Pedido de ID: "+idPedido+" deletado.", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{idPedido}")
-    public ResponseEntity<PedidoRepresentationModel> getPedidoById(@PathVariable(value = "idPedido") Long idPedido){
+    //@GetMapping(value = "/pedido/{idPedido}")
+    //public ResponseEntity<PedidoRepresentationModel> getPedidoById(@PathVariable(value = "idPedido") Long idPedido){
+    @GetMapping(value = "/pedido")
+    public ResponseEntity<PedidoRepresentationModel> getPedidoById(@RequestParam(value = "idPedido") Long idPedido){
         PedidoRepresentationModel pedidoRepresentationModel = toRepresentatioModel(cadastroPedidoService.getPedidoById(idPedido));
         return new ResponseEntity<PedidoRepresentationModel>(pedidoRepresentationModel, HttpStatus.OK);
     }
@@ -65,8 +67,10 @@ public class PedidoController {
         return new ResponseEntity<List<PedidoRepresentationModel>>(toCollectionRepresentationModel(pedidos), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/cliente/{idCliente}")
-    public ResponseEntity<List<PedidoRepresentationModel>> getPedidoByIdCliente(@PathVariable(name = "idCliente") Long idCliente) {
+    @GetMapping(value = "/cliente")
+    public ResponseEntity<List<PedidoRepresentationModel>> getPedidoByIdCliente(@RequestParam(name = "idCliente") Long idCliente) {
+    //@GetMapping(value = "/cliente/{idCliente}")
+    //public ResponseEntity<List<PedidoRepresentationModel>> getPedidoByIdCliente(@PathVariable(name = "idCliente") Long idCliente) {
         List<Pedido> pedidos = cadastroPedidoService.getPedidosByIdCliente(idCliente);
         List<PedidoRepresentationModel> pedidosRM = toCollectionRepresentationModel(pedidos);
         return new ResponseEntity<List<PedidoRepresentationModel>>(pedidosRM, HttpStatus.OK);

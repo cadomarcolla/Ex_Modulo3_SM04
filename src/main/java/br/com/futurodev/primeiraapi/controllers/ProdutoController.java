@@ -1,8 +1,11 @@
 package br.com.futurodev.primeiraapi.controllers;
 
 
+import br.com.futurodev.primeiraapi.Dto.PedidoRepresentationModel;
 import br.com.futurodev.primeiraapi.Dto.ProdutoRepresentationModel;
+import br.com.futurodev.primeiraapi.input.PedidoInput;
 import br.com.futurodev.primeiraapi.input.ProdutoInput;
+import br.com.futurodev.primeiraapi.model.Pedido;
 import br.com.futurodev.primeiraapi.model.Produto;
 import br.com.futurodev.primeiraapi.services.CadastroProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +43,16 @@ public class ProdutoController {
         return new ResponseEntity<String>("Produto ID " + idProduto + " deletado com sucesso!", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{idProduto}")
+
+    @GetMapping(value = "/produto/{idProduto}")
     public ResponseEntity<ProdutoRepresentationModel> getProdutoById(@PathVariable(value = "idProduto") Long idProduto) {
         ProdutoRepresentationModel produtoRepresentationModel = toModel(cadastroProdutoService.getProdutoById(idProduto));
         return new ResponseEntity<ProdutoRepresentationModel>(produtoRepresentationModel, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{descricao}")
-    public ResponseEntity<List<ProdutoRepresentationModel>> getProdutosByName(@PathVariable(name = "descricao") String descricao) {
-        List<Produto> produtos = cadastroProdutoService.getProdutosByDescricao(descricao);
+    @GetMapping(value = "/produto")
+    public ResponseEntity<List<ProdutoRepresentationModel>> getProdutosByName(@RequestParam(name = "descricao") String descricao) {
+        List<Produto> produtos = cadastroProdutoService.getProdutosByDescricao(descricao.toUpperCase());
         List<ProdutoRepresentationModel> produtosRepresentationModel = toCollectionModel(produtos);
         return new ResponseEntity<List<ProdutoRepresentationModel>>(produtosRepresentationModel,HttpStatus.OK);
     }
@@ -61,12 +65,14 @@ public class ProdutoController {
         return new ResponseEntity<List<ProdutoRepresentationModel>>(produtosRepresentationModel, HttpStatus.OK);
     }
 
+
+
     private Produto toDomainObject(ProdutoInput produtoInput) {
         Produto produto = new Produto();
         produto.setId(produtoInput.getIdProduto());
-        produto.setDescricao(produto.getDescricao());
-        produto.setPrecoCompra(produto.getPrecoCompra());
-        produto.setPrecoVenda(produto.getPrecoVenda());
+        produto.setDescricao(produtoInput.getDescricao());
+        produto.setPrecoCompra(produtoInput.getPrecoCompra());
+        produto.setPrecoVenda(produtoInput.getPrecoVenda());
         return produto;
     }
 

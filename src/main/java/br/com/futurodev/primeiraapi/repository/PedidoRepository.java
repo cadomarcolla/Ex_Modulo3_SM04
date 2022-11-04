@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PedidoRepository extends JpaRepository <Pedido, Long>{
 
-    @Query("select p from Pedido p where p.cliente like ?1")
+    @Query("select p from Pedido p where p.cliente.id = ?1")
     List<Pedido> getPedidosByIdCliente (Long idCliente);
 
 

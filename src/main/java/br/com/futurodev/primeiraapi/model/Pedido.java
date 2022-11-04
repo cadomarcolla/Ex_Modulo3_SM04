@@ -29,11 +29,11 @@ public class Pedido implements Serializable {
     private OffsetDateTime dataHoraAlteracao;
 
     @ManyToOne
-    @JoinColumn(name = "idcliente", foreignKey = @ForeignKey(name = "fk_cliente"))
+    @JoinColumn(name = "idCliente", foreignKey = @ForeignKey(name = "fk_cliente"))
     private Cliente cliente;
 
     @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "idFormaPagamento", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_formapagamento"))
+    @JoinColumn(name = "idFormaPagamento", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_formaPagamento"))
     private FormaPagamento formaPagamento;
 
     @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
